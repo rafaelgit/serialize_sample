@@ -8,8 +8,8 @@ services:
   - mysql
 
 before_install:
+  - "mysql -e 'SET Password=PASSWORD('root')'"
   - "mysql -e 'create database serialize_sample;'"
-  - "mysql -e 'use serialize_sample;'"
   
 install:
   - ./mvnw clean install
