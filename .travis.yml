@@ -5,14 +5,10 @@ jdk:
   - openjdk11
 
 services:
-  - mysql
-
-before_install:
-  - "sudo mysql -e 'SET Password=PASSWORD('root')'"
-  - "mysql -e 'create database serialize_sample;'"
+  - docker
   
 install:
-  - ./mvnw clean install
+  - "docker run -d --name mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=serialize_sample -p 3306:3306
   
 after_install:
   - "mysql -e 'use serialize_sample; insert into person (category, name) values ('human', 'Pereira'); insert into person (category, name) values ('animal', 'Thor');'"
