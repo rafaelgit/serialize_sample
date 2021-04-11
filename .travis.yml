@@ -10,8 +10,9 @@ services:
 before_install:
   - "mysql -e 'create database serialize_sample;'"
   - "mysql -e 'use serialize_sample;'"
-  - "mysql -e 'insert into person (category, name) values ('human', 'Pereira');'"
-  - "mysql -e 'insert into person (category, name) values ('animal', 'Thor');'"
-
+  
 install:
   - ./mvnw clean install
+  
+after_install:
+  - "mysql -e 'use serialize_sample; insert into person (category, name) values ('human', 'Pereira'); insert into person (category, name) values ('animal', 'Thor');'"
