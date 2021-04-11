@@ -2,10 +2,19 @@ language: java
 
 jdk:
   - openjdk11
-  
+
 services:
   - mysql
   - docker
+
+install:
+  - docker run --name t3pl-mysql-p -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql
+
+before_script:
+  - "mysql -e 'create database serialize_sample;'"
+  - "mysql -e 'use serialize_sample;'"
+  - "mysql -e 'insert into person (category, name) values ('human', 'Pereira');'"
+  - "mysql -e 'insert into person (category, name) values ('animal', 'Thor');'"
 
 script:
   - ./mvnw clean install
