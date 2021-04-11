@@ -1,21 +1,17 @@
 language: java
+sudo: enabled
 
 jdk:
   - openjdk11
 
 services:
   - mysql
-  - docker
 
-install:
-  - docker pull mysql
-
-before_script:
+before_install:
   - "mysql -e 'create database serialize_sample;'"
   - "mysql -e 'use serialize_sample;'"
   - "mysql -e 'insert into person (category, name) values ('human', 'Pereira');'"
   - "mysql -e 'insert into person (category, name) values ('animal', 'Thor');'"
 
-script:
-  - docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql
+install:
   - ./mvnw clean install
