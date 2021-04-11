@@ -8,7 +8,7 @@ services:
   - docker
 
 install:
-  - docker run --name t3pl-mysql-p -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql
+  - docker pull mysql
 
 before_script:
   - "mysql -e 'create database serialize_sample;'"
@@ -17,4 +17,5 @@ before_script:
   - "mysql -e 'insert into person (category, name) values ('animal', 'Thor');'"
 
 script:
+  - docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql
   - ./mvnw clean install
