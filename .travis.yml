@@ -2,6 +2,10 @@ language: java
 
 jdk:
   - openjdk11
+  
+services:
+  - mysql
+  - docker
 
 script:
   - ./mvnw clean install
