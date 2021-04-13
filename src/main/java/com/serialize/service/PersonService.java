@@ -6,12 +6,20 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.serialize.dto.PersonVo;
 import com.serialize.entity.PersonEntity;
+import com.serialize.repository.PersonRepository;
 import com.serialize.wrapper.PersonWrapper;
+import org.hibernate.query.NativeQuery;
+import org.hibernate.transform.Transformers;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PersonService {
+
+	@Autowired
+	PersonRepository personRepository;
 
 	@PersistenceContext
 	private EntityManager entitymanager;
@@ -29,9 +37,15 @@ public class PersonService {
 				.getResultList();
 	}
 
-	public List<PersonEntity> personListDto(){
+	public List<PersonEntity> personListMapper(){
 		return entitymanager.createQuery("SELECT p FROM PersonEntity p", PersonEntity.class)
 				.getResultList();
 	}
+
+	public List<PersonVo> personListVo(){
+		return entitymanager.createNativeQuery("SELECT p.name, p.category FROM person p", "PersonVo")
+				.getResultList();
+	}
+
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.serialize.dto.PersonDto;
+import com.serialize.dto.PersonVo;
 import com.serialize.entity.PersonEntity;
 import com.serialize.mapper.PersonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +34,17 @@ public class PersonController {
 		return ResponseEntity.ok(service.personListWrapper());
 	}
 
-	@GetMapping(path = "/list-dto")
-	public ResponseEntity<List<PersonDto>> personListDto() {
-		List<PersonEntity> personEntity = service.personListDto();
+	@GetMapping(path = "/list-mapper")
+	public ResponseEntity<List<PersonDto>> personListMapper() {
+		List<PersonEntity> personEntity = service.personListMapper();
 		List<PersonDto> personDto = personEntity.stream().map((p) -> PersonMapper.INSTANCE.personToPersonDto(p)).collect(Collectors.toList());
 		return  ResponseEntity.ok(personDto);
+	}
+
+	@GetMapping(path = "/list-vo")
+	public ResponseEntity<List<PersonVo>> personListVo() {
+		List<PersonVo> personVo = service.personListVo();
+		return ResponseEntity.ok(personVo);
 	}
 
 }
